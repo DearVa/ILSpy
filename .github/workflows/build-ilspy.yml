@@ -48,9 +48,9 @@ jobs:
     - name: Execute unit tests
       run: dotnet test --logger "junit;LogFileName=${{ matrix.configuration }}.xml" --results-directory test-results $env:Tests1 $env:Tests2 $env:Tests3
       env:
-        Tests1: ICSharpCode.Decompiler.Tests\bin\${{ matrix.configuration }}\net6.0-windows\win-x64\ICSharpCode.Decompiler.Tests.dll
-        Tests2: ILSpy.Tests\bin\${{ matrix.configuration }}\net6.0-windows\ILSpy.Tests.dll
-        Tests3: ILSpy.BamlDecompiler.Tests\bin\${{ matrix.configuration }}\net6.0-windows\win-x64\ILSpy.BamlDecompiler.Tests.dll
+        Tests1: ICSharpCode.Decompiler.Tests\bin\${{ matrix.configuration }}\net7.0-windows\win-x64\ICSharpCode.Decompiler.Tests.dll
+        Tests2: ILSpy.Tests\bin\${{ matrix.configuration }}\net7.0-windows\ILSpy.Tests.dll
+        Tests3: ILSpy.BamlDecompiler.Tests\bin\${{ matrix.configuration }}\net7.0-windows\win-x64\ILSpy.BamlDecompiler.Tests.dll
 
     - name: Upload Test Logs
       uses: actions/upload-artifact@v3
@@ -76,7 +76,7 @@ jobs:
         git diff --exit-code
     
     - name: Zip ILSpy (framework-dependent)
-      run: 7z a -tzip $env:StagingDirectory\ILSpy_binaries.zip .\ILSpy\bin\${{ matrix.configuration }}\net6.0-windows\*.dll .\ILSpy\bin\${{ matrix.configuration }}\net6.0-windows\*.exe .\ILSpy\bin\${{ matrix.configuration }}\net6.0-windows\*.config .\ILSpy\bin\${{ matrix.configuration }}\net6.0-windows\*.json .\ILSpy\bin\${{ matrix.configuration }}\net6.0-windows\*\ILSpy.resources.dll .\ILSpy\bin\${{ matrix.configuration }}\net6.0-windows\*\ILSpy.ReadyToRun.Plugin.resources.dll
+      run: 7z a -tzip $env:StagingDirectory\ILSpy_binaries.zip .\ILSpy\bin\${{ matrix.configuration }}\net7.0-windows\*.dll .\ILSpy\bin\${{ matrix.configuration }}\net7.0-windows\*.exe .\ILSpy\bin\${{ matrix.configuration }}\net7.0-windows\*.config .\ILSpy\bin\${{ matrix.configuration }}\net7.0-windows\*.json .\ILSpy\bin\${{ matrix.configuration }}\net7.0-windows\*\ILSpy.resources.dll .\ILSpy\bin\${{ matrix.configuration }}\net7.0-windows\*\ILSpy.ReadyToRun.Plugin.resources.dll
 
     - name: Zip ILSpy Release (self-contained win-x64)
       if: matrix.configuration == 'release'    
@@ -85,7 +85,7 @@ jobs:
         dotnet publish ./ILSpy/ILSpy.csproj -c Release --no-restore --self-contained -r win-x64
         dotnet publish ./ILSpy.ReadyToRun/ILSpy.ReadyToRun.csproj -c Release --no-restore --self-contained -r win-x64
         dotnet publish ./ILSpy.BamlDecompiler/ILSpy.BamlDecompiler.csproj -c Release --no-restore --self-contained -r win-x64
-        7z a -tzip $env:StagingDirectory\ILSpy_selfcontained_x64.zip .\ILSpy\bin\Release\net6.0-windows\win-x64\publish\*     
+        7z a -tzip $env:StagingDirectory\ILSpy_selfcontained_x64.zip .\ILSpy\bin\Release\net7.0-windows\win-x64\publish\*     
 
     # https://github.com/actions/upload-artifact
     - name: Upload VSIX (VS 2019) release build artifacts
